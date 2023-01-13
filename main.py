@@ -2,8 +2,6 @@ from hubspot import HubSpot
 from pprint import pprint
 
 from hubspot.crm.contacts import ApiException
-
-#from hubspot.crm.contacts import SimplePublicObjectInput, ApiException
 from hubspot.crm.deals import SimplePublicObjectInput, ApiException
 
 api_client = HubSpot(access_token='pat-eu1-9492283a-09bc-4833-9dca-8c643d662007')
@@ -12,13 +10,13 @@ all_contacts = api_client.crm.contacts.get_all()
 
 all_deals = api_client.crm.deals.get_all()
 
-#print(all_deals)
-
 response = []
 
 
 def main():
     
+    all_contacts = get_all_contact()
+
     for contact in all_contacts:
 
         phone_number = validate_phone_number(contact)        
@@ -28,11 +26,13 @@ def main():
             #agregar numero telefonico al contacto
             response.append(add_new_number(contact)) 
 
-            #create_deal(5)
+            #create_deal(contact.id)
         
         print(response)
     
-    
+def get_all_contact():
+
+    return api_client.crm.contacts.get_all()
            
 def create_deal(id):
 
